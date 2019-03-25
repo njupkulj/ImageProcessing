@@ -6,7 +6,6 @@
 //
 
 #include "Processing.hpp"
-#include <math.h>
 
 
 /* 
@@ -20,9 +19,16 @@
 	g 灰度变换
 
 */
-bool ImageProcessing::operation(const char* inputFileNmae, const char* outputFileName, const char operation){
+bool ImageProcessing::operation(const char* inputFileNmae, const char* outputFileName, const char& operation){
 	bool successed = false;
 	int form =0;
+	/*switch(operation){
+        case 'c':
+            break;
+        default:
+            std::cout << "wrong opeartion";
+            return successed;
+	}*/
 	if(operation == 'c'){
 		printf("in operation...\n");
 		do{
@@ -242,12 +248,11 @@ bool ImageProcessing::operation(const char* inputFileNmae, const char* outputFil
 	return successed;
 }
 
-void ImageProcessing::init(void){
+void ImageProcessing::init(){
 	//if(RGB_Buff) delete[] RGB_Buff;
-	RGB_Buff=0;
-
-	image_width=0;
-	image_height=0;
+	RGB_Buff     = nullptr;
+	image_width  = 0;
+	image_height = 0;
 }
 
 bool ImageProcessing::readFromBMP(const char* fileName, BITMAPFILEHEADER * fileHeader, BITMAPINFOHEADER * infoHeader){//}, IMAGEPIXEL **imagebuff){
@@ -497,7 +502,7 @@ bool ImageProcessing::BMP_gray(void){
 	return successed;
 }
 
-bool ImageProcessing::BMP_equlization(void){
+bool ImageProcessing::BMP_equlization(){
 	bool successed = false;
 	do{
 		int k=0,hist[3][256]={0};
@@ -637,7 +642,7 @@ bool ImageProcessing::BMP_mini(unsigned int taskH,unsigned int taskW){//, BITMAP
 	return successed;
 }
 
-bool ImageProcessing::BMP_edge_detection(void){//, BITMAPFILEHEADER * fileHeader, BITMAPINFOHEADER * infoHeader){
+bool ImageProcessing::BMP_edge_detection(){//, BITMAPFILEHEADER * fileHeader, BITMAPINFOHEADER * infoHeader){
 	bool successed;
 	do{
 		for(int i=0,j=0;i<image_width*image_height*3;i++){
@@ -698,7 +703,7 @@ bool ImageProcessing::BMP_edge_detection(void){//, BITMAPFILEHEADER * fileHeader
 	return successed;
 }
 
-bool ImageProcessing::BMP_cut(void){//, BITMAPFILEHEADER * fileHeader, BITMAPINFOHEADER * infoHeader){
+bool ImageProcessing::BMP_cut(){//, BITMAPFILEHEADER * fileHeader, BITMAPINFOHEADER * infoHeader){
 	bool successed;
 	do{
 		for(int i=0,j=0;i<image_width*image_height*3;i++){

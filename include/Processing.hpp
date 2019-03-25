@@ -12,10 +12,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <iostream>
 
 class ImageProcessing{
 public:
-	bool operation(const char* inputFileName,const char * outputFileName,const char operation);
+	bool operation(const char* inputFileName,const char* outputFileName,const char& operation);
 private:
 #pragma pack(2)
 	typedef struct {
