@@ -2,6 +2,10 @@ CMAKE_MINIMUM_REQUIRED( VERSION 2.8 )
 
 PROJECT( ImageProcessing )
 
+SET(CMAKE_CXX_STANDARD 11)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+SET(CMAKE_CXX_EXTENSIONS OFF)
+
 INCLUDE_DIRECTORIES(include)
 
-ADD_EXECUTABLE( my_DIP src/main.cpp src/Processing.cpp )
+ADD_EXECUTABLE( my_DIP src/main.cpp src/Processing.cpp src/process.cpp)

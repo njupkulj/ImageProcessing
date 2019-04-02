@@ -15,9 +15,13 @@ int main(int argc,char **argv){
     const char* inputFileName = argv[1];
     const char* outputFileName = argv[2];
     const char operation = argv[3][1];
-    ImageProcessing image;
-    if(!image.operation(inputFileName,outputFileName,operation)){
-        return 1;
+    process image{};
+    if(!image.operation(inputFileName, outputFileName, operation)){
+        return -1;
     }
+//    ImageProcessing image{};
+//    if(!image.operation(inputFileName,outputFileName,operation)){
+//        return 1;
+//    }
     return 0;
 }
