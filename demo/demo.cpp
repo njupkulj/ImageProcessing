@@ -5,7 +5,7 @@
 //  Created by 李鑫 on 2018/10/10.
 //
 
-#include "main.hpp"
+#include "imageprocessing.hpp"
 
 int main(int argc,char **argv){
     if(argc<3){
