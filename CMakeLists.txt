@@ -18,3 +18,4 @@ ADD_EXECUTABLE( my_DIP demo/demo.cpp)
 
 TARGET_LINK_LIBRARIES(my_DIP
         ${PROJECT_NAME})
+
