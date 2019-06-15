@@ -65,6 +65,7 @@ private:
     };
 
     void init();
+    // 从BMP文件读
     bool readFromBMP(const char* fileName, BITMAPFILEHEADER * fileHeader, BITMAPINFOHEADER * infoHeader);//,IMAGEPIXEL **imagebuff);
     bool writeToBMP(const char* fileName, BITMAPFILEHEADER * fileHeader, BITMAPINFOHEADER * infoHeader);
     bool scaling_image();
