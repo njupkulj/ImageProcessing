@@ -201,6 +201,7 @@ inline double san_f(double x){
 
 //TODO there is some BUG, case small picture can not changed correct
 bool process::scaling_image() {
+
     bool successed = false;
     do{
         std::cout << "please input the taskH:";
