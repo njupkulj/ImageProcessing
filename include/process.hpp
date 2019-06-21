@@ -16,7 +16,7 @@ public:
     bool operation(const char*inputFileNmae, const char*outputFileName, const char& operation);
 
 private:
-    // PNG header info
+    // BMP header info
 #pragma pack(2)
     typedef struct {
         unsigned short	bfType;			//the type of the file 2B
@@ -39,14 +39,14 @@ private:
         unsigned int	biClrUsed;
         unsigned int	biClrImportant;
     } BITMAPINFOHEADER;
+#pragma pack()
 
     typedef struct{
         unsigned char rgbRed;
         unsigned char rgbGreen;
         unsigned char rgbBlue;
-        unsigned char rgbReserved;
+        unsigned char gray;
     }IMAGEPIXEL;
-#pragma pack()
 
     int                 image_width;
     int                 image_height;
@@ -69,6 +69,7 @@ private:
     bool readFromBMP(const char* fileName, BITMAPFILEHEADER * fileHeader, BITMAPINFOHEADER * infoHeader);//,IMAGEPIXEL **imagebuff);
     bool writeToBMP(const char* fileName, BITMAPFILEHEADER * fileHeader, BITMAPINFOHEADER * infoHeader);
     bool scaling_image();
+    bool gray_image();
 
 };
 
