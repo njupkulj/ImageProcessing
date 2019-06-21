@@ -19,9 +19,5 @@ int main(int argc,char **argv){
     if(!image.operation(inputFileName, outputFileName, operation)){
         return -1;
     }
-//    ImageProcessing image{};
-//    if(!image.operation(inputFileName,outputFileName,operation)){
-//        return 1;
-//    }
     return 0;
 }

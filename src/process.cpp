@@ -36,6 +36,16 @@ bool process::operation(const char* const inputFileNmae, const char* const outpu
             }
             successed = writeToBMP(outputFileName, fileHeader, infoHeader);
             break;
+        case 'g':
+            // 如果是彩色才进行操作
+            if(infoHeader->biBitCount == 24){
+                taskH = infoHeader->biHeight;
+                taskW = infoHeader->biWidth;
+                gray_image();
+                infoHeader->biBitCount = 8;
+            }
+            successed = writeToBMP(outputFileName, fileHeader, infoHeader);
+            break;
         case 's':
             scaling_image();
             infoHeader->biWidth = taskW;
@@ -50,6 +60,18 @@ bool process::operation(const char* const inputFileNmae, const char* const outpu
             break;
     }
     return successed;
+}
+
+bool process::gray_image()
+{
+    img_data_new = new IMAGEPIXEL* [taskH];
+    for(int i=0; i<taskH; ++i){
+        img_data_new[i] = new IMAGEPIXEL[taskW];
+    }
+    for(int i=0;i<taskH;++i){
+        for(int j=0;j<taskW;++j)
+            img_data_new[i][j].gray = 0.299 * img_data[i][j].rgbBlue + 0.587*img_data[i][j].rgbGreen + 0.114 * img_data[i][j].rgbRed;
+    }
 }
 
 bool process::readFromBMP(const char* const fileName, BITMAPFILEHEADER * fileHeader, BITMAPINFOHEADER * infoHeader){
@@ -106,12 +128,20 @@ bool process::readFromBMP(const char* const fileName, BITMAPFILEHEADER * fileHea
             img_data[i] = new IMAGEPIXEL[image_width];
         }
 
-        for(int i=0,j=0;i<image_width*image_height*3;i = i+3){
-            j=i/3;
-            img_data[j/image_width][j%image_width].rgbBlue = buffer[i];
-            img_data[j/image_width][j%image_width].rgbGreen = buffer[i+1];
-            img_data[j/image_width][j%image_width].rgbRed = buffer[i+2];
-//            RGB_Buff[i%3][j/image_width][j%image_width]=buffer[i];
+        if(infoHeader->biBitCount == 24) {
+            for (int i = 0, j = 0; i < image_width * image_height * 3; i = i + 3) {
+                j = i / 3;
+                img_data[j / image_width][j % image_width].rgbBlue = buffer[i];
+                img_data[j / image_width][j % image_width].rgbGreen = buffer[i + 1];
+                img_data[j / image_width][j % image_width].rgbRed = buffer[i + 2];
+                //            RGB_Buff[i%3][j/image_width][j%image_width]=buffer[i];
+            }
+        }
+        else{
+            for(int i=0,j=0;i<image_width*image_height*3;i = i+3){
+                j=i/3;
+                img_data[j/image_width][j%image_width].gray = buffer[i];
+            }
         }
         successed=true;
 
@@ -140,7 +170,7 @@ bool process::writeToBMP(const char* const fileName, BITMAPFILEHEADER * fileHead
             auto rgbq= new IMAGEPIXEL[256];
             for(int i=0;i<256;i++) {
                 rgbq[i].rgbBlue=rgbq[i].rgbGreen=rgbq[i].rgbRed= static_cast<unsigned char>(i);
-                rgbq[i].rgbReserved=0;
+                rgbq[i].gray=0;
             }
             infoHeader->biSizeImage= static_cast<unsigned int> (((infoHeader->biWidth * 3 + 3) / 4) * 4  * infoHeader->biHeight);
             fileHeader->bfOffBits = sizeof(BITMAPFILEHEADER)+sizeof(BITMAPINFOHEADER)+256*sizeof(IMAGEPIXEL);
@@ -171,7 +201,7 @@ bool process::writeToBMP(const char* const fileName, BITMAPFILEHEADER * fileHead
             else if(save_color == GRAY){
                 for(int i=0; i<infoHeader->biHeight; i++){
                     for(int j=0;j<infoHeader->biWidth;j++){
-                        fwrite(&img_data_new[infoHeader->biHeight-i-1][j].rgbReserved,1,1,fp);
+                        fwrite(&img_data_new[infoHeader->biHeight-i-1][j].gray,1,1,fp);
                     }
                 }
             }
